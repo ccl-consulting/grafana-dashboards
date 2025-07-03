@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 21662,
   "graphTooltip": 0,
-  "id": 29,
+  "id": 31,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -986,6 +986,140 @@
         "x": 0,
         "y": 19
       },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(\n  0.99,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\"\n      }[$__rate_interval]\n    )\n  )\n)",
+          "instant": false,
+          "legendFormat": "99%",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(\n  0.95,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\",\n      }[$__rate_interval]\n    )\n  )\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "95%",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(\n  0.90,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\"\n      }[$__rate_interval]\n    )\n  )\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "90%",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(\n  0.50,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\",\n      }[$__rate_interval]\n    )\n  )\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "50%",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Job Queue Duration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 19
+      },
       "id": 13,
       "options": {
         "legend": {
@@ -1061,140 +1195,6 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 19
-      },
-      "id": 14,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(\n  0.99,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\"\n      }[$__rate_interval]\n    )\n  )\n)",
-          "instant": false,
-          "legendFormat": "99%",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(\n  0.95,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\",\n      }[$__rate_interval]\n    )\n  )\n)",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "95%",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(\n  0.90,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\"\n      }[$__rate_interval]\n    )\n  )\n)",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "90%",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(\n  0.50,\n  sum by (le)(\n    rate(\n      gitlab_runner_job_queue_duration_seconds_bucket{\n        job=~\"${job:pipe}\",\n      }[$__rate_interval]\n    )\n  )\n)",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "50%",
-          "range": true,
-          "refId": "D"
-        }
-      ],
-      "title": "Job  Queue Duration",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1212,14 +1212,22 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 12,
-        "x": 12,
+        "x": 0,
         "y": 25
       },
       "id": 47,
       "options": {
         "calculate": false,
+        "calculation": {
+          "xBuckets": {
+            "mode": "size"
+          },
+          "yBuckets": {
+            "mode": "size"
+          }
+        },
         "cellGap": 1,
         "color": {
           "exponent": 0.5,
@@ -1248,7 +1256,8 @@
         },
         "yAxis": {
           "axisPlacement": "left",
-          "reverse": false
+          "reverse": false,
+          "unit": "s"
         }
       },
       "pluginVersion": "9.4.7",
@@ -1260,15 +1269,17 @@
           },
           "editorMode": "code",
           "expr": "sum by (le) (\n  increase(gitlab_runner_job_queue_duration_seconds_bucket{job=~\"${job:pipe}\"}[$__rate_interval])\n)",
+          "format": "heatmap",
           "instant": false,
-          "interval": "",
+          "interval": "$__rate_interval",
           "intervalFactor": 1,
-          "legendFormat": "__auto",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Job Queue Duration Histogram",
+      "title": "Job Queue Duration Heatmap",
+      "transformations": [],
       "type": "heatmap"
     },
     {
@@ -1277,7 +1288,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 32
       },
       "id": 15,
       "panels": [],
@@ -1345,7 +1356,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 33
       },
       "id": 16,
       "options": {
@@ -1439,7 +1450,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 33
       },
       "id": 17,
       "options": {
@@ -1533,7 +1544,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 41
       },
       "id": 19,
       "options": {
@@ -1627,7 +1638,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 41
       },
       "id": 18,
       "options": {
@@ -1666,7 +1677,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 49
       },
       "id": 23,
       "panels": [],
@@ -1734,7 +1745,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 50
       },
       "id": 24,
       "options": {
@@ -1829,7 +1840,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 49
+        "y": 50
       },
       "id": 25,
       "options": {
@@ -1907,7 +1918,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 58
       },
       "id": 32,
       "panels": [],
@@ -1975,7 +1986,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 58
+        "y": 59
       },
       "id": 45,
       "options": {
@@ -2071,7 +2082,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 58
+        "y": 59
       },
       "id": 48,
       "options": {
@@ -2165,7 +2176,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 67
       },
       "id": 26,
       "options": {
@@ -2207,7 +2218,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 66
+        "y": 67
       },
       "id": 52,
       "options": {
@@ -2285,7 +2296,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 74
+        "y": 75
       },
       "id": 27,
       "options": {
@@ -2420,7 +2431,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 74
+        "y": 75
       },
       "id": 28,
       "options": {
@@ -2489,7 +2500,7 @@
           "refId": "D"
         }
       ],
-      "title": "Fleeting Instance Is Running Duration",
+      "title": "Fleeting Instance IsRunning Duration",
       "type": "timeseries"
     },
     {
@@ -2516,7 +2527,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 83
       },
       "id": 50,
       "options": {
@@ -2549,7 +2560,8 @@
         },
         "yAxis": {
           "axisPlacement": "left",
-          "reverse": false
+          "reverse": false,
+          "unit": "s"
         }
       },
       "pluginVersion": "9.4.7",
@@ -2560,14 +2572,16 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_creation_time_seconds_bucket{job=\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_creation_time_seconds_bucket{job=~\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "format": "heatmap",
           "instant": false,
-          "legendFormat": "99%",
+          "interval": "$__rate_interval",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Fleeting Instance Creation Duration",
+      "title": "Fleeting Instance Creation Heatmap",
       "type": "heatmap"
     },
     {
@@ -2594,7 +2608,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 82
+        "y": 83
       },
       "id": 53,
       "options": {
@@ -2606,7 +2620,7 @@
           "mode": "scheme",
           "reverse": false,
           "scale": "exponential",
-          "scheme": "Greens",
+          "scheme": "Blues",
           "steps": 64
         },
         "exemplars": {
@@ -2627,7 +2641,8 @@
         },
         "yAxis": {
           "axisPlacement": "left",
-          "reverse": false
+          "reverse": false,
+          "unit": "s"
         }
       },
       "pluginVersion": "9.4.7",
@@ -2638,14 +2653,15 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_is_running_time_seconds_bucket{job=\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_is_running_time_seconds_bucket{job=~\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "format": "heatmap",
           "instant": false,
-          "legendFormat": "99%",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Fleeting Instance Is Running Duration",
+      "title": "Fleeting Instance IsRunning Heatmap",
       "type": "heatmap"
     },
     {
@@ -2711,7 +2727,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 90
+        "y": 91
       },
       "id": 30,
       "options": {
@@ -2846,7 +2862,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 90
+        "y": 91
       },
       "id": 29,
       "options": {
@@ -2943,11 +2959,20 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 98
+        "y": 99
       },
       "id": 54,
       "options": {
         "calculate": false,
+        "calculation": {
+          "xBuckets": {
+            "mode": "size",
+            "value": ""
+          },
+          "yBuckets": {
+            "mode": "size"
+          }
+        },
         "cellGap": 1,
         "color": {
           "exponent": 0.5,
@@ -2955,7 +2980,7 @@
           "mode": "scheme",
           "reverse": false,
           "scale": "exponential",
-          "scheme": "Greens",
+          "scheme": "Purples",
           "steps": 64
         },
         "exemplars": {
@@ -2976,7 +3001,8 @@
         },
         "yAxis": {
           "axisPlacement": "left",
-          "reverse": false
+          "reverse": false,
+          "unit": "s"
         }
       },
       "pluginVersion": "9.4.7",
@@ -2987,14 +3013,16 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_life_duration_seconds_bucket{job=\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_life_duration_seconds_bucket{job=~\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "format": "heatmap",
           "instant": false,
-          "legendFormat": "99%",
+          "interval": "$__rate_interval",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Fleeting Instance Life Timing",
+      "title": "Fleeting Instance Life Heatmap",
       "type": "heatmap"
     },
     {
@@ -3022,7 +3050,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 98
+        "y": 99
       },
       "id": 55,
       "options": {
@@ -3034,7 +3062,7 @@
           "mode": "scheme",
           "reverse": false,
           "scale": "exponential",
-          "scheme": "Greens",
+          "scheme": "Reds",
           "steps": 64
         },
         "exemplars": {
@@ -3055,7 +3083,8 @@
         },
         "yAxis": {
           "axisPlacement": "left",
-          "reverse": false
+          "reverse": false,
+          "unit": "s"
         }
       },
       "pluginVersion": "9.4.7",
@@ -3066,14 +3095,16 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_deletion_time_seconds_bucket{job=\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "expr": "sum by (le) (\n  rate(\n    fleeting_provisioner_instance_deletion_time_seconds_bucket{job=~\"${job:pipe}\"}[$__rate_interval]\n  )\n)",
+          "format": "heatmap",
           "instant": false,
-          "legendFormat": "99%",
+          "interval": "$__rate_interval",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Fleeting Instance Deletion Timing",
+      "title": "Fleeting Instance Deletion Heatmap",
       "type": "heatmap"
     },
     {
@@ -3082,7 +3113,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 106
+        "y": 107
       },
       "id": 34,
       "panels": [
@@ -3131,8 +3162,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -3225,8 +3255,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -3360,8 +3389,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -3495,8 +3523,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -3630,8 +3657,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -3724,7 +3750,7 @@
       "type": "row"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
